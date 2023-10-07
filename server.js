@@ -2,6 +2,7 @@ const express = require ('express')
 const mongoose = require ('mongoose')
 const bodyParser = require ('body-parser')
 const dotenv = require ('dotenv')
+const auth = require('./routes/authenticate')
 dotenv.config()
 
 const app = express()
@@ -26,6 +27,7 @@ app.get('/health', (req,res) => {
     }
     
 } )
+app.use(auth);
 
 app.listen (process.env.Port, () => {
     mongoose
