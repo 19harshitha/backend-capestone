@@ -29,6 +29,13 @@ app.get('/health', (req,res) => {
 } )
 app.use(auth);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res
+      .status(500)
+      .json({ error: "Something went wrong! Please try again later." });
+  });
+
 app.listen (process.env.Port, () => {
     mongoose
     .connect(process.env.mongodb_URL, {
