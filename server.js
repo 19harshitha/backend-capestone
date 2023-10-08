@@ -2,7 +2,7 @@ const express = require ('express')
 const mongoose = require ('mongoose')
 const bodyParser = require ('body-parser')
 const dotenv = require ('dotenv')
-const auth = require('./routes/authenticate')
+const auth = require('./routes/reg_log')
 dotenv.config()
 
 const app = express()
@@ -29,8 +29,15 @@ app.get('/health', (req,res) => {
 } )
 app.use(auth);
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
+app.use((req, res, next) => {
+    const err = new Error("Not found");
+    err.status = 404;
+    next(err);
+  });
+
+//error handler
+   app.use((err, req, res, next) => {
+
     res
       .status(500)
       .json({ error: "Something went wrong! Please try after some time." });
