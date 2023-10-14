@@ -2,7 +2,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router();
 const jwt = require('jsonwebtoken')
-const User = require('../model/client')
+const User = require('../schema_model/client_mod')
 
 router.post("/Signup", async (req, res) => {
   try {
@@ -15,12 +15,12 @@ router.post("/Signup", async (req, res) => {
     if (existingUser) {
       return res.status(409).json({ error: "User already exists" });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const encryptedpwd = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       email,
-      mobile: mobile,
-      password: hashedPassword,
+      mobile,
+      password: encryptedpwd,
     });
 
     await newUser.save();
@@ -34,6 +34,7 @@ router.post("/Signup", async (req, res) => {
       name: user.name,
       token
     })
+    
   } catch (err) { console.log(err) }
 })
 
@@ -63,7 +64,7 @@ router.post("/Signin", async (req, res) => {
     })
   } catch (err) {
     console.log({ err: 'failed to sign in' })
-  }
+  } 
 })
 
 
