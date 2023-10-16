@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 const PORT = process.env.PORT || 3000;
 app.listen (PORT, () => {
     mongoose
-    .connect(mongodb_URL, {
+    .connect(process.env.mongodb_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
