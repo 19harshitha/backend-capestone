@@ -4,12 +4,13 @@ const bodyParser = require ('body-parser')
 const dotenv = require ('dotenv')
 const auth = require('./routes/reg_log')
 const jobs = require('./routes/job_rou')
+const cors = require("cors");
 dotenv.config()
 
 const app = express()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(cors());
 app.use(auth,jobs);
 
 //health api
